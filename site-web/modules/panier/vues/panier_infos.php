@@ -32,7 +32,7 @@
 	            	<input type='number' id='quantite' class='form-control' name='quantite' min='1' value=\"".$qte."\"/>
 	       		</div>
 	       		<div class='col-lg-6'>
-	            	<button class='submit_button btn btn-primary' type='submit' value='ajout' title='Ajouter au panier'><i class='fa fa-cart-plus'></i></button>
+	            	<button class='submit_button btn btn-primary' type='submit' value='ajout' title='Ajouter au panier'><i class='fa fa-plus'></i></button>
 				</div>
 			</div>
         </form>
@@ -43,7 +43,7 @@
       		<input type='hidden' name='operation' value='Supprimer du panier' />
 			<div class='row col-lg-12'>
 	       		<div class='col-lg-6'>
-	            	<button class='submit_button btn btn-primary' type='submit' value='ajout' title='Supprimer du panier'><i class='fa fa-cart-plus'></i></button>
+	            	<button class='submit_button btn btn-primary' type='submit' value='ajout' title='Supprimer du panier'><i class='fa fa-minus'></i></button>
 				</div>
 			</div>
         </form>
@@ -57,13 +57,15 @@
 	    </table>
 	    </div>
 	    <div class='large-4 columns'>
-		 <a href='index.php?module=vitrine&action=catalogue'><input type='submit' name='continuer' value='Poursuivre vos achats'></a>
+		 <a href='index.php?module=vitrine&action=catalogue'>
+		 <button class='submit_button btn btn-primary' type='submit' value='ajout' title='Retour au catalogue'><i class='fa fa-shopping-basket'></i></button>
+		 </a>
 		 <form id='ajout' action='index.php?module=panier&action=afficher_panier' method='post'>
 			<input type='hidden' name='id' value=$ref />
       		<input type='hidden' name='action' value='Passer la Commande' />
 			<div class='row col-lg-12'>
 	       		<div class='col-lg-6'>
-	            	<button class='submit_button btn btn-primary' type='submit' value='ajout' title='Passer la commande'><i class='fa fa-cart-plus'></i></button>
+	            	<button class='submit_button btn btn-primary' type='submit' value='ajout' title='Passer la commande'><i class='fa fa-shopping-cart'></i></button>
 				</div>
 			</div>
         </form>";

@@ -1,5 +1,4 @@
 <?php 
-var_dump($_POST);
 switch($_POST["operation"])
 {
 		case "Vider le Panier":
@@ -27,7 +26,7 @@ switch($_POST["operation"])
 				$_SESSION["panier"][$i]["prix"]=$_POST["prix"];
 				$_SESSION["panier"][$i]["photo"]=$_POST["photo"];
 			}
-			header('Location: index.php?module=panier&action=afficher_panier');
+			include 'index.php?module=vitrine&action=catalogue';
 			break;
 		case "Supprimer du panier":
 			$i=count($_SESSION["panier"]);

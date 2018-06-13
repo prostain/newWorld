@@ -18,7 +18,6 @@
         //cas client
           case "client" :  
           ?>
-          <li class="nav-item "><a class="nav-link" href='index.php?module=commerce&action=catalogue'>Catalogue</a></li>
           <li class="nav-item "><a class="nav-link" href='index.php?module=panier&action=afficher_panier'>Panier<span class="badge badge-danger badge-pill"><?php echo $nbLotPanier;?></span></a></li>
           <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img class="icon_avatar" src='images/user/avatar_default.png'/></a>
@@ -32,13 +31,10 @@
         //cas point relai
           case "relai" :
           ?>
-          <li class="nav-item "><a class="nav-link" href='index.php?module=commerce&action=catalogue'>Catalogue</a></li>
-          <li class="nav-item "><a class="nav-link" href='index.php?module=panier&action=afficher_panier'>Panier</a></li>
-          <li class="nav-item "><a class="nav-link" href='index.php?module=commerce&action=produits'>Vos produits</a></li>
+
+          <li class="nav-item "><a class="nav-link" href='index.php?module=panier&action=afficher_panier'>Panier<span class="badge badge-danger badge-pill"><?php echo $nbLotPanier;?></span></a></li>
           <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <img class="icon_avatar" src='images/user/avatar_default.png' />
-                </a>
+                <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img class="icon_avatar" src='images/user/avatar_default.png'/></a>
                 <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
                     <a class="nav-link" href='index.php?module=utilisateur&action=profil'> <i class="fa fa-user" ></i> Mon profil</a>
                     <a class="nav-link" href='index.php?module=utilisateur&action=deconnexion'><i class="fa fa-sign-out" ></i> Se déconnecter</a>
@@ -49,9 +45,7 @@
         //cas producteur
           case "producteur" : 
           ?>
-          <li class="nav-item "><a class="nav-link" href='index.php?module=commerce&action=catalogue'>Catalogue</a></li>
-          <li class="nav-item "><a class="nav-link" href='index.php?module=panier&action=afficher_panier'>Panier</a></li>
-          <!--si nouvelle fonctionnalitée ajouter ici-->
+          <li class="nav-item "><a class="nav-link" href='index.php?module=panier&action=afficher_panier'>Panier<span class="badge badge-danger badge-pill"><?php echo $nbLotPanier;?></span></a></li>
           <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img class="icon_avatar" src='images/user/avatar_default.png'/></a>
                 <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
@@ -64,7 +58,6 @@
         //cas modératzur
           case "moderateur" :  
           ?>
-          <li class="nav-item "><a class="nav-link" href='index.php?module=commerce&action=catalogue'>Catalogue</a></li>
           <li class="nav-item "><a class="nav-link" href='index.php?module=panier&action=afficher_panier'>Panier</a></li>
           <li class="nav-item "><a class="nav-link" href='index.php?module=commerce&action=produits'>Vos produits</a></li>
           <li class="nav-item "><a class="nav-link" href='index.php?module=utilisateur&action=profil'>Profil</a></li>
@@ -74,7 +67,6 @@
         //cas administrateur
           case "administrateur" :  
           ?>
-          <li class="nav-item "><a class="nav-link" href='index.php?module=commerce&action=catalogue'>Catalogue</a></li>
           <li class="nav-item "><a class="nav-link" href='index.php?module=panier&action=afficher_panier'>Panier</a></li>
           <li class="nav-item "><a class="nav-link" href='index.php?module=commerce&action=produits'>Vos Produits</a></li>
           <li class="nav-item "><a class="nav-link" href='index.php?module=utilisateur&action=profil'>Profil</a></li>

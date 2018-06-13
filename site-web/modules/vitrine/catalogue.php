@@ -44,7 +44,7 @@ require_once CHEMIN_MODELE.'commerce.php';
 	{
 		$lePointDeVente="-1";
 	}
-	$compteLots = compterLots($leRayon, $leProduit, $laVariete, $lePointDeVente, $leProducteur);
+	$compteLots = compterLots($idUser, $leRayon, $leProduit, $laVariete, $lePointDeVente, $leProducteur);
 	$nbLots = count($compteLots);
 	$lotsParPage= 8;
 	$nombreDePages=ceil($nbLots/$lotsParPage);
@@ -71,7 +71,7 @@ require_once CHEMIN_MODELE.'commerce.php';
 		$premiereEntree=0;
 	}
 	
-	$lesLots = chargerLots($premiereEntree, $lotsParPage, $leRayon, $leProduit, $laVariete, $lePointDeVente, $leProducteur);
+	$lesLots = chargerLots($idUser, $premiereEntree, $lotsParPage, $leRayon, $leProduit, $laVariete, $lePointDeVente, $leProducteur);
 
 	$pointDeVentes = chargerPointDeVente($idUser);
 

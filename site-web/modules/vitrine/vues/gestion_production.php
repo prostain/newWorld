@@ -87,7 +87,7 @@
     <div class="tab-pane fade" id="list-variete" role="tabpanel" aria-labelledby="list-variete-list">
       <form action="index.php?module=vitrine&action=produire" method="post" enctype="multipart/form-data" >
         <div class="form-group">
-          <select class="form-control" id="rayon" name="rayon" onchange="remplirListeDesProduits(this.value)">
+          <select class="form-control" id="rayon" name="rayon" onchange="remplirListeDesProduits1(this.value)">
             <option value=" ">Rayon </option>
             <?php
             foreach ($rayons as $rayon) {
@@ -118,9 +118,75 @@
 
     <!-- //////////////////////////////////////////////////////////////////////////////////////////// -->
     <div class="tab-pane fade" id="list-lot" role="tabpanel" aria-labelledby="list-lot-list">
-      <p>...</p>
-    </div>
+     <form id="options" class="ajax-auth" action="index.php?module=vitrine&action=produire" method="post">
+      <div class="form-group">
+        <select class="form-control" id="monrayon" name="monrayon" onchange="remplirListeDesProduits(this.value)">
+          <option value="-1">Rayon </option>
+          <?php
+          foreach ($rayons as $rayon) {
+            ?>
+            <option value="<?php echo $rayon['idRayon']; ?>"><?php echo $rayon['libelleRayon']; ?></option>
+            <?php
+          }
+          ?>
+        </select>
+      </div>
+      <div class="form-group">
+        <select class="form-control" id="monproduit" name="monproduit" onclick="remplirListeDesVarietes(this.value)">
+          <option value="-1"> choisir un rayon</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <select class="form-control" id="mavariete" name="mavariete">
+          <option value="-1"> choisir un produit</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <select class="form-control" id="parcelle" name="parcelle">
+          <?php
+          foreach ($parcelles as $parcelle) {
+            ?>
+            <option value="<?php echo $parcelle['idParcelle']; ?>"><?php echo $parcelle['libelleParcelle'].' ('.$parcelle['commune'].')'; ?></option>
+            <?php
+          }
+          ?>
+        </select>
+      </div>
+      <div class="md-form">
+        <input type="number" id="quantite" class="form-control" name="quantite" min="1" required="">
+        <label for="quantite">Quantité :</label>
+      </div>
+      <div class="form-group">
+        <select class="form-control" id="unite" name="unite">
+          <option value="kg">le kilogramme </option>
+          <option value="l">le litre </option>
+          <option value="u.">l'unité </option>
+        </select>
+      </div>
+      <div class="md-form">
+        <input type="number" id="prix" class="form-control" name="prix" min="0.5" step="0.01" required="">
+        <label for="prix">Prix :</label>
+      </div>
+      <div class="md-form">
+      <label>Date de récolte :</label>
+      <input type="date" id="dateRecolte" class="form-control datepicker1" name="dateRecolte"required="">
+        
+      </div>
+      <div class="md-form">
+      <label >Date limite de conservation :</label>
+        <input type="date" id="dateLimite" class="form-control datepicker2" name="dateLimite"required="">
+      </div>
+      <div class="md-form">
+        <i class="fa fa-pencil prefix grey-text"></i>
+        <textarea required="" name="description" type="text" id="form8" class="md-textarea" required=""></textarea>
+        <label for="form8">Description du lot</label>
+      </div>
+       <div class="text-center">
+          <button class="submit_button btn btn-primary" type="submit" value="Envoyer">Proposer ce lot</button>
+        </div>
+    </form>
   </div>
+</div>
 </div>
 </div>
 </div>
@@ -143,6 +209,15 @@
 
 <script type="text/javascript">
 
+
+$('.datepicker1').datepicker({
+    format: 'mm/dd/yyyy',
+    startDate: '-3d'
+});
+$('.datepicker2').datepicker({
+    format: 'mm/dd/yyyy',
+    startDate: '+3d'
+});
     //auto complément de l'adresse ville et code postal
     $("#idAdresse").autocomplete({
       source: function (request, response) {
@@ -172,7 +247,7 @@
   /**
   * Méthode qui sera appelée lors de la sélection d'un rayon
   */
-  function remplirListeDesProduits(noRayon)
+  function remplirListeDesProduits1(noRayon)
   {
     //alert("chgt de rayon");
     //alert("le rayon:"+noRayon+" est demandé");
@@ -224,5 +299,97 @@
   //****************************************************
 
 
+  function remplirListeDesProduits(noRayon)
+  {
+    //alert("chgt de rayon");
+    //alert("le rayon:"+noRayon+" est demandé");
+    var request = $.ajax({
+    //url: "http://petersonr.hol.es/newWorld/wsListeDesProduitsDuRayon.php",
+    url: "wsListeDesProduitsDuRayon.php",
+    method: "GET",
+    data: { idRayon : noRayon }
+  });
+
+      //element html de type select qui contiendra les produits du rayon
+      var listeDesProduits=$("#monproduit");
+      //vider la liste des produits
+      $(listeDesProduits).html("");
+
+
+      //element html de type select qui contiendra les varietes du produit
+      var listeDesVarietes=$("#mavariete");
+      //vider la liste des produits
+      $(listeDesVarietes).html("");
+
+    //lors de la reception du json
+    request.done(function(reponse)
+    {
+      //pour chaque categ du rayon
+      //alert(reponse);
+      var tabProduits=JSON.parse(reponse);
+
+
+      $.each(tabProduits, function( i,produit) 
+      {
+        //alert(produit.libelleProduit);
+        //ajout du produit obtenu à la liste
+        //création de l'option
+        var nouveauProduit=document.createElement("option");
+        //valorisation de l'attribut value de l'option
+        $(nouveauProduit).attr("value",produit.idProduit);
+        //mise en place du libellé du produit
+        $(nouveauProduit).html(produit.libelleProduit);
+        //ajout de l'option à la select
+        $(listeDesProduits).append(nouveauProduit);
+
+      });//fin du pour chaque produit
+    });//fin reception du json
+    request.fail(function( msg ) 
+    {
+      alert("Pas de produit dans ce rayon");
+    });
+  }//fin de la fonction remplirListeDesProduitsDuRayon
+
+  function remplirListeDesVarietes(noProduit)
+  {
+
+    var request = $.ajax({
+    //url: "http://petersonr.hol.es/newWorld/wsListeDesVarietesDuProduit.php",
+    url: "wsListeDesVarietesDuProduit.php",
+    method: "GET",
+    data: { idProduit : noProduit }
+  });
+
+    //element html de type select qui contiendra les produits du rayon
+    var listeDesVarietes=$("#mavariete");
+      //vider la liste des produits
+      $(listeDesVarietes).html("");
+
+    //lors de la reception du json
+    request.done(function(reponse)
+    {
+      //pour chaque categ du rayon
+      var tabVarietes=JSON.parse(reponse);
+      
+
+      $.each(tabVarietes, function( i,variete) 
+      {
+        //ajout de la variete obtenu à la liste
+        //création de l'option
+        var nouvelleVariete=document.createElement("option");
+        //valorisation de l'attribut value de l'option
+        $(nouvelleVariete).attr("value",variete.idVariete);
+        //mise en place du libellé du variete
+        $(nouvelleVariete).html(variete.libelleVariete);
+        //ajout de l'option à la select
+        $(listeDesVarietes).append(nouvelleVariete);
+
+      });//fin du pour chaque variete
+    });//fin reception du json
+    request.fail(function( msg ) 
+    {
+      alert("Pas de variete dans ce produit");
+    });
+  }//fin de la fonction remplirListeDesVarietes
 
 </script>

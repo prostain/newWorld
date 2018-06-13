@@ -79,6 +79,8 @@ unset($_SESSION['point']);
 <div class=" row col-lg-9">
 
   <?php
+  if ($nbLots > 1)
+  {
   foreach ($lesLots as $lot)
   {
 
@@ -189,13 +191,20 @@ unset($_SESSION['point']);
 </div>
 <?php 
 }
-?>
-</div>
+}
+ else
+{
+ ?>
+  <div class="alert alert-danger alert-dismissible">
+      <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+      <strong>Dommage!</strong> Il n'y a aucun lot dans les paramètres désirés.
+    </div>
+
 <?php
+  }
+ ?>
+</div>
 
-
-
-?>
 <br />
 <br />
 <div class="col-sm-9 col-sm-push-3 monBlock">

@@ -11,6 +11,7 @@ else
 	$idProducteur = chargerIdProducteur($idUser);
 	$rayons=chargerRayons();
 	$modeProductions = chargerModeProduction($idProducteur);
+	$parcelles = cargerParcelles($idProducteur);
 	if(isset($_POST['monProduit']))
 	{
 		$poids_max = 512000; // Poids max de l'image en octets (1Ko = 1024 octets)
@@ -130,7 +131,7 @@ else
 				if ($_FILES['fichier']['type'] == 'image/gif') { $extention = '.gif'; }
 				$nom_fichier = time().$extention;
 
-				$cheminPhoto = $repertoire.time();
+				$cheminPhoto = $repertoire.$nom_fichier;
 				$idProduit = $_POST['produit'];
 				$nomVariete = $_POST['maVariete'];
 
@@ -165,6 +166,46 @@ else
 	}
 
 
+	if (isset($_POST['description']))
+	{
+		$idVariete = $_POST['mavariete'];
+		$idParcelle = $_POST['parcelle'];
+		$quantite = $_POST['quantite'];
+		$unite = $_POST['unite'];
+		$prix = $_POST['prix'];
+		$description = $_POST['description'];
+		$dateRecolte = $_POST['dateRecolte'];
+		$dateLimite = $_POST['dateLimite'];
+		// Ou encore
+		$dateRecolte_fr = $_POST['dateRecolte'];
+		$dateRecolte_us = date('Y-m-d', strtotime(str_replace('/', '-', $dateRecolte_fr)));
+
+// Ou encore
+		$dateLimite_fr = $_POST['dateLimite'];
+		$dateLimite_us = date('Y-m-d', strtotime(str_replace('/', '-', $dateLimite_fr)));
+
+		$creation_lot = creation_lot($idProducteur, $idVariete, $idParcelle, $quantite, $unite, $prix, $description, $dateRecolte_us, $dateLimite_us);
+		if ($creation_lot)
+		{
+			$message_succes = " Cette parcelle a bien été enregistrée";
+			$_SESSION['messageForm']= $message_succes;
+			include CHEMIN_VUE.'message_succes.php';
+			include CHEMIN_VUE.'gestion_production.php';
+
+		}
+		else
+		{
+			$form = true;
+			$message_erreurs = "La parcelle n'a pas pût être enregistrée, veuillez contacter un administrateur.";
+		}
+
+	}
+	else
+	{
+		$form = true;
+	}
+
+
 
 	if(isset($_POST['modeProduction']))
 	{
@@ -172,7 +213,7 @@ else
 		$longitude = $_POST['longitude'];
 		$commune= $_POST['ville'];
 		$production= $_POST['modeProduction'];
-		$ajout_effectue= création_parcelle($idProducteur, $commune, $latitude, $longitude, $production);
+		$ajout_effectue= creation_parcelle($idProducteur, $commune, $latitude, $longitude, $production);
 		if ($ajout_effectue) {
 			$message_succes = " Cette parcelle a bien été enregistrée";
 			$_SESSION['messageForm']= $message_succes;

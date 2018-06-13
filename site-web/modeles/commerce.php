@@ -48,6 +48,19 @@ function chargerModeProduction($idProducteur){
 	return $result;
 }
 
+function cargerParcelles($idProducteur)
+{
+	global $connexion;
+	$requeteParcelleTxt = "SELECT idParcelle, libelleParcelle, commune FROM parcelles WHERE idProducteur = $idProducteur";
+	$requeteParcelle = mysqli_query($connexion, $requeteParcelleTxt) or die('Erreur SQL !<br>'.$requeteParcelleTxt.'<br>'.mysqli_error($connexion));
+	while($data = mysqli_fetch_assoc($requeteParcelle))  
+	{ 
+		$result[]=$data;
+	}
+	return $result;
+
+}
+
 function chargerPointDeVente($idUser){
 	global $connexion;
 	$requeteLotsTxt = "SELECT pointDeVente.idPoint, nomPoint FROM pointDeVente INNER JOIN choixPointsAchat ON pointDeVente.idPoint = choixPointsAchat.idPoint WHERE choixPointsAchat.idUser = $idUser";
@@ -195,12 +208,12 @@ function ajout_point_producteur($idPoint, $idUser){
 
 }
 
-function compterLots($leRayon, $leProduit, $laVariete, $lePointDeVente, $leProducteur){
+function compterLots($idUser, $leRayon, $leProduit, $laVariete, $lePointDeVente, $leProducteur){
 	global $connexion;
-	$requeteLotsTxt = 'SELECT lot.idLot, libelleVariete, libelleProduit, quantite, dateRecolte, dateLimite, prix, libelleUnite, descLot, variete.photo, idProducteur FROM rayon INNER join produit on rayon.idRayon = produit.idRayon INNER join variete on produit.idProduit = variete.idProduit inner join lot on variete.idVariete = lot.idVariete inner join unite on lot.idUnite = unite.idUnite WHERE lot.idLot IN(SELECT lot.idLot FROM lot inner JOIN producteur on lot.idProducteur = producteur.idProducteur inner join choixPointsLivraison on producteur.idProducteur = choixPointsLivraison.idProducteur INNER JOIN pointDeVente on choixPointsLivraison.idPoint = pointDeVente.idPoint INNER join choixPointsAchat on pointDeVente.idPoint = choixPointsAchat.idPoint';
+	$requeteLotsTxt = 'SELECT lot.idLot, libelleVariete, libelleProduit, quantite, dateRecolte, dateLimite, prix, libelleUnite, descLot, variete.photo, idProducteur FROM rayon INNER join produit on rayon.idRayon = produit.idRayon INNER join variete on produit.idProduit = variete.idProduit inner join lot on variete.idVariete = lot.idVariete inner join unite on lot.idUnite = unite.idUnite WHERE lot.idLot IN(SELECT lot.idLot FROM lot inner JOIN producteur on lot.idProducteur = producteur.idProducteur inner join choixPointsLivraison on producteur.idProducteur = choixPointsLivraison.idProducteur INNER JOIN pointDeVente on choixPointsLivraison.idPoint = pointDeVente.idPoint INNER join choixPointsAchat on pointDeVente.idPoint = choixPointsAchat.idPoint WHERE choixPointsAchat.idUser ='.$idUser.'';
 	if($lePointDeVente != "-1")
 	{
-		$requeteLotsTxt .=' WHERE pointDeVente.idPoint ='.$lePointDeVente;
+		$requeteLotsTxt .=' AND pointDeVente.idPoint ='.$lePointDeVente;
 	}
 
 	$requeteLotsTxt.=')';
@@ -230,12 +243,12 @@ function compterLots($leRayon, $leProduit, $laVariete, $lePointDeVente, $leProdu
 	return $result;
 }
 
-function chargerLots($premiereEntree, $lotsParPage, $leRayon, $leProduit, $laVariete, $lePointDeVente, $leProducteur){
+function chargerLots($idUser, $premiereEntree, $lotsParPage, $leRayon, $leProduit, $laVariete, $lePointDeVente, $leProducteur){
 	global $connexion;
-	$requeteLotsTxt = 'SELECT lot.idLot, libelleVariete, libelleProduit, quantite, dateRecolte, dateLimite, prix, libelleUnite, descLot, variete.photo, idProducteur FROM rayon INNER join produit on rayon.idRayon = produit.idRayon INNER join variete on produit.idProduit = variete.idProduit inner join lot on variete.idVariete = lot.idVariete inner join unite on lot.idUnite = unite.idUnite WHERE lot.idLot IN(SELECT lot.idLot FROM lot inner JOIN producteur on lot.idProducteur = producteur.idProducteur inner join choixPointsLivraison on producteur.idProducteur = choixPointsLivraison.idProducteur INNER JOIN pointDeVente on choixPointsLivraison.idPoint = pointDeVente.idPoint INNER join choixPointsAchat on pointDeVente.idPoint = choixPointsAchat.idPoint';
+	$requeteLotsTxt = 'SELECT lot.idLot, libelleVariete, libelleProduit, quantite, dateRecolte, dateLimite, prix, libelleUnite, descLot, variete.photo, idProducteur FROM rayon INNER join produit on rayon.idRayon = produit.idRayon INNER join variete on produit.idProduit = variete.idProduit inner join lot on variete.idVariete = lot.idVariete inner join unite on lot.idUnite = unite.idUnite WHERE lot.idLot IN(SELECT lot.idLot FROM lot inner JOIN producteur on lot.idProducteur = producteur.idProducteur inner join choixPointsLivraison on producteur.idProducteur = choixPointsLivraison.idProducteur INNER JOIN pointDeVente on choixPointsLivraison.idPoint = pointDeVente.idPoint INNER join choixPointsAchat on pointDeVente.idPoint = choixPointsAchat.idPoint WHERE choixPointsAchat.idUser ='.$idUser.'';
 	if($lePointDeVente != "-1")
 	{
-		$requeteLotsTxt .=' WHERE pointDeVente.idPoint ='.$lePointDeVente;
+		$requeteLotsTxt .=' AND pointDeVente.idPoint ='.$lePointDeVente;
 	}
 
 	$requeteLotsTxt.=')';
@@ -361,7 +374,7 @@ function chargerMesPoint($mesLots)
 }
 */
 
-function création_parcelle($idProducteur, $commune, $latitude, $longitude, $production)
+function creation_parcelle($idProducteur, $commune, $latitude, $longitude, $production)
 {
 	global $connexion;
 
@@ -378,5 +391,29 @@ function création_parcelle($idProducteur, $commune, $latitude, $longitude, $pro
 		$result=$data; 
 	}
 	return $result;  
+}
+
+function creation_lot($idProducteur, $idVariete, $idParcelle, $quantite, $unite, $prix, $description, $dateRecolte_us, $dateLimite_us)
+{
+	global $connexion;
+	//récupération de l'id du role par rapport à son libelle
+	$resultIdlot = $connexion->query('SELECT ifnull(max(idlot), 50)+1 as maxId from lot');
+	$ligneIdlot = $resultIdlot->fetch_array();
+	$idLot = $ligneIdlot['maxId'];
+/*
+	//récupération de l'id du role par rapport à son libelle
+	$resultIdUnite = $connexion->query("SELECT idUnite from unite where libelleUnite ='$unite");
+	$ligneIdUnite = $resultIdUnite->fetch_array();
+	$idUnite = $ligneIdUnite['idUnite'];
+*/
+	$requeteAjoutTxt = "INSERT INTO lot(idLot, descLot, idUnite, quantite, prix, idVariete, idProducteur, idParcelle, dateRecolte, dateLimite) VALUES($idLot, '$description', 1, $quantite, $prix, $idVariete, $idProducteur, $idParcelle, '$dateRecolte_us', '$dateLimite_us')";
+	$requeteAjout = mysqli_query($connexion, $requeteAjoutTxt) or die('Erreur SQL !<br>'.$requeteAjoutTxt.'<br>'.mysqli_error($connexion));
+	if($data = mysqli_fetch_assoc($requeteAjout))  
+	{ 
+    	// on retourne les informations de l'enregistrement en cours
+		$result=$data; 
+	}
+	return $result; 
+
 }
 ?>

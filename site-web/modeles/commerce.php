@@ -416,4 +416,92 @@ function creation_lot($idProducteur, $idVariete, $idParcelle, $quantite, $unite,
 	return $result; 
 
 }
+
+
+function chargerPointDeVenteDeLot($idLot)
+{
+	global $connexion;
+	$requetePointsTxt = "SELECT pointDeVente.idPoint, pointDeVente.nomPoint FROM lot inner JOIN producteur on lot.idProducteur = producteur.idProducteur inner join choixPointsLivraison on producteur.idProducteur = choixPointsLivraison.idProducteur INNER JOIN pointDeVente on choixPointsLivraison.idPoint = pointDeVente.idPoint INNER join choixPointsAchat on pointDeVente.idPoint = choixPointsAchat.idPoint where idLot =".$idLot." GROUP by idPoint";
+	$requetePoints = mysqli_query($connexion, $requetePointsTxt) or die('Erreur SQL !<br>'.$requetePointsTxt.'<br>'.mysqli_error($connexion));
+
+	while($data = mysqli_fetch_assoc($requetePoints))  
+	{ 
+		$result[]=$data; 
+
+	}
+	return $result;
+
+}
+
+function chargerPDVPanier($points)
+{
+	global $connexion;
+	$requetePointsTxt = "SELECT pointDeVente.idPoint, pointDeVente.nomPoint FROM pointDeVente where pointDeVente.idPoint IN('$points') GROUP by idPoint";
+	$requetePoints = mysqli_query($connexion, $requetePointsTxt) or die('Erreur SQL !<br>'.$requetePointsTxt.'<br>'.mysqli_error($connexion));
+
+	while($data = mysqli_fetch_assoc($requetePoints))  
+	{ 
+		$result[]=$data; 
+
+	}
+	return $result;
+
+}
+
+
+function creationCommande($idUser, $idPoint, $panier)
+{
+	global $connexion;
+	//récupération de l'id du role par rapport à son libelle
+	$resultIdCommande = $connexion->query('SELECT ifnull(max(idCommande), 50)+1 as maxId from commande');
+	$ligneIdCommande = $resultIdCommande->fetch_array();
+	$idCommande = $ligneIdCommande['maxId'];
+
+	if ($connexion->query("INSERT INTO commande(idCommande, idUser, idPoint) VALUES($idCommande, $idUser, $idPoint)"))
+	{
+		foreach ($panier as $lot) 
+		{
+			$verifPoint =$lot['pointDeVenteFavori']; 
+
+			if($idPoint == $verifPoint)  
+			{ 
+				$idLot = $lot['ref'];
+				$quantite = $lot['quantite'];
+				$data= completionCommande($idCommande, $idLot, $quantite);
+				if ($data) {
+					$valide = true;
+				}
+			}
+		}
+		
+	}
+	return $valide; 
+}
+
+function completionCommande($idCommande, $idLot, $quantite)
+{
+	global $connexion;
+	if($connexion->query("INSERT INTO ligneDeCde(idCommande, idLot, quantiteCommandee) VALUES($idCommande, $idLot, $quantite )"))
+		{
+			$valide = true;
+		}
+	return $valide; 
+
+}
+/*
+function affiche_commande($idUser)
+{
+	global $connexion;
+	$requeteLotsTxt = "SELECT commande.idCommande, pointDeVente.nomPoint from commande inner join pointDeVente on commande.idPoint = pointDeVente.idPoint WHERE commande.idUser =".$idUser." AND ;
+	$requeteLots = mysqli_query($connexion, $requeteLotsTxt) or die('Erreur SQL !<br>'.$requeteLotsTxt.'<br>'.mysqli_error($connexion));
+
+	while($data = mysqli_fetch_assoc($requeteLots))  
+	{ 
+		$result[]=$data;
+	}
+
+	return $result;
+
+}
+*/
 ?>

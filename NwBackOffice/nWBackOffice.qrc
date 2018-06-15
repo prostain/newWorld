@@ -1,0 +1,14 @@
+<RCC>
+    <qresource prefix="/icones">
+        <file>mesIcones/inconWarning.png</file>
+        <file>mesIcones/iconCaddie.png</file>
+        <file>mesIcones/iconProduit.png</file>
+        <file>mesIcones/iconTypeProd.png</file>
+        <file>mesIcones/iconFermer.png</file>
+        <file>mesIcones/iconEffacer.png</file>
+        <file>mesIcones/iconValider.png</file>
+        <file>mesIcones/iconQuitter.png</file>
+        <file>mesIcones/iconFermer2.png</file>
+        <file>mesIcones/iconMainWindow.png</file>
+    </qresource>
+</RCC>

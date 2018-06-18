@@ -15,7 +15,7 @@ void Pdf::ecrireTexte(QString texte)
 
 void Pdf::chargerImage(QString image)
 {
-    codeHTML+="<img src="+image+"><br>";
+    codeHTML+="<img src=../"+image+"><br>";
 }
 
 void Pdf::imprimer()

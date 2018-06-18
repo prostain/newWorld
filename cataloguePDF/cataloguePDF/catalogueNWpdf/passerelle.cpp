@@ -9,7 +9,7 @@ CollectionVariete Passerelle::chargerLesVarietes(int idProduit)
 {
     qDebug()<<"CollectionVariete Passerelle::chargerLesVarietes()";
     CollectionVariete mesVarietes;
-    QString laRequete="SELECT idLot, libelleVariete, descVariete, prix, photo FROM lot inner join variete on lot.idVariete = variete.idVariete where idProduit ="+QString::number(idProduit)+" AND validiteVariete = 1;";
+    QString laRequete="SELECT lot.idLot, libelleVariete, descVariete, prix, photo, libelleUnite FROM unite INNER JOIN lot on unite.idUnite=lot.idUnite inner join variete on lot.idVariete = variete.idVariete where idProduit ="+QString::number(idProduit)+" AND validiteVariete = 1;";
     qDebug()<<laRequete;
     JeuEnregistrement monJeu(laRequete);
     while(monJeu.suivant())
@@ -19,7 +19,8 @@ CollectionVariete Passerelle::chargerLesVarietes(int idProduit)
         QString imageVariete=monJeu.getValeur("photo").toString();
         float puVariete=monJeu.getValeur("prix").toFloat();
         QString descVariete=monJeu.getValeur("descVariete").toString();
-        Variete laVariete(idVariete,libelleVariete,imageVariete,descVariete,puVariete);
+        QString unite=monJeu.getValeur("libelleUnite").toString();
+        Variete laVariete(idVariete,libelleVariete,imageVariete,descVariete,puVariete, unite);
         mesVarietes.ajouter(laVariete);
     }
     return mesVarietes;
@@ -29,7 +30,7 @@ CollectionProduit Passerelle::chargerLesProduits(int idRayon)
 {
     qDebug()<<"CollectionProduit Passerelle::chargerLesProduits()";
     CollectionProduit mesProduits;
-    QString laRequete="SELECT idProduit,libelleProduit FROM produit where idRayon ="+QString::number(idRayon)+" AND validiteProduit = 1 ;";
+    QString laRequete="SELECT idProduit,libelleProduit FROM produit where idRayon ="+QString::number(idRayon)+" AND validiteProduit = 1;";
     qDebug()<<laRequete;
     JeuEnregistrement monJeu(laRequete);
     while(monJeu.suivant())
@@ -46,7 +47,7 @@ CollectionRayon Passerelle::chargerLesRayons()
 {
     qDebug()<<"CollectionRayon Passerelle::chargerLesRayons()";
     CollectionRayon mesRayons;
-    QString laRequete="SELECT idRayon,libelleRayon FROM rayon;";
+    QString laRequete="SELECT idRayon,libelleRayon FROM rayon ;";
     qDebug()<<laRequete;
     JeuEnregistrement monJeu(laRequete);
     while(monJeu.suivant())

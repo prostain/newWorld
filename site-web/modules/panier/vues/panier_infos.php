@@ -6,6 +6,7 @@
   <th align="center">Prix Unitaire</th>
   <th align="center">Montant</th>
   <th align="center">Point de vente</th>
+  <th align="center">Modifier la quantité</th>
 </tr>
 <?php
 
@@ -24,7 +25,7 @@
 		echo '<tr><td >'.$ref.'</td>';
 		echo '<td align="right">'.$stock.' '.$unite.'</td>';
 		echo '<td align="right">'.$prix.' &euro;</td>';
-		echo '<td align="right">'.$montant.' :)'.$pointFavori.' &euro;</td>';
+		echo '<td align="right">'.$montant.' &euro;</td>';
 		echo "<td align='right'>
 
 		<form id='ajout'>
@@ -51,7 +52,7 @@
 	            	<input type='number' id='quantite' class='form-control' name='quantite' min='1' value=\"".$qte."\"/>
 	       		</div>
 	       		<div class='col-lg-6'>
-	            	<button class='submit_button btn btn-primary' type='submit' value='ajout' title='Ajouter au panier'><i class='fa fa-plus'></i></button>
+	            	<button class='submit_button btn btn-primary' type='submit' value='ajout' title='Modifier la quantite'><i class='fa fa-plus'></i></button>
 				</div>
 			</div>
         </form>
@@ -69,13 +70,15 @@
         </td>";
     }
 	  echo '<tr>';
-	  echo '<td align="right" colspan="4">Total</td>';
-	  echo '<td align="right">'.$total.' &euro;</td>';
+	  echo '<td align="right" colspan="4"><h2>Total</h2></td>';
+	  echo '<td align="right"> <h2>'.$total.' &euro;</h2></td>';
 	  echo '</tr>';
 	  echo "
 	    </table>
 	    </div>
-	    <div class='large-4 columns'>
+	    <br />
+	    <br />
+	    <div class='large-4 columns text-center'>
 		 <a href='index.php?module=vitrine&action=catalogue'>
 		 <button class='submit_button btn btn-primary' type='submit' value='ajout' title='Retour au catalogue'><i class='fa fa-shopping-basket'></i></button>
 		 </a>

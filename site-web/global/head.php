@@ -3,7 +3,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <title>New World</title>
-
+  <link rel="shortcut icon" type="image/x-icon" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQyoNPNstKIe169qsT83zXhdRoqCxk6sPN1zz8F7SxoCnkiTLVx" />
 
 
     <!-- Font Awesome -->

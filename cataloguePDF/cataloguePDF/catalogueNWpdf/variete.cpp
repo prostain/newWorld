@@ -5,7 +5,7 @@ Variete::Variete()
 {
 }
 
-Variete::Variete(int idVariete, QString libelleVariete, QString imageVariete, QString varieteDesc , float varietePU)
+Variete::Variete(int idVariete, QString libelleVariete, QString imageVariete , QString varieteDesc ,float varietePU, QString varieteUnite)
 {
     qDebug()<<"Variete::Variete(int idVariete, QString libelleVariete, QString imageVariete)";
     varieteId=idVariete;
@@ -13,13 +13,14 @@ Variete::Variete(int idVariete, QString libelleVariete, QString imageVariete, QS
     varieteImage=imageVariete;
     this->varieteDesc=varieteDesc;
     this->varietePU=varietePU;
+    this->varieteUnite=varieteUnite;
 }
 
 QString Variete::versChaine()
 {
     qDebug()<<"QString Variete::versChaine()";
     QString resultat;
-    resultat+="<div><p>"+varieteLibelle+"<br>"+QString::number(varietePU)+" € Unitée <br>"+varieteDesc+"</p></div>";
+    resultat+="<div><p>"+varieteLibelle+"<br>"+QString::number(varietePU)+" € / "+varieteUnite+" <br>"+varieteDesc+"</p></div>";
     return resultat;
 }
 

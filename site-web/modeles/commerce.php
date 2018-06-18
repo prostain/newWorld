@@ -488,20 +488,32 @@ function completionCommande($idCommande, $idLot, $quantite)
 	return $valide; 
 
 }
-/*
+
 function affiche_commande($idUser)
 {
 	global $connexion;
-	$requeteLotsTxt = "SELECT commande.idCommande, pointDeVente.nomPoint from commande inner join pointDeVente on commande.idPoint = pointDeVente.idPoint WHERE commande.idUser =".$idUser." AND ;
-	$requeteLots = mysqli_query($connexion, $requeteLotsTxt) or die('Erreur SQL !<br>'.$requeteLotsTxt.'<br>'.mysqli_error($connexion));
+	$requeteCommandesTxt = "SELECT commande.idCommande, pointDeVente.nomPoint from commande inner join pointDeVente on commande.idPoint = pointDeVente.idPoint WHERE commande.idUser =".$idUser;
+	$requeteCommandes = mysqli_query($connexion, $requeteCommandesTxt) or die('Erreur SQL !<br>'.$requeteCommandesTxt.'<br>'.mysqli_error($connexion));
+	$result="";
+	$cptC=0;
+	while($data = mysqli_fetch_assoc($requeteCommandes))  
+	{
+		$result[$cptC]=$data;
+		$idCommande = $data['idCommande'];
 
-	while($data = mysqli_fetch_assoc($requeteLots))  
-	{ 
-		$result[]=$data;
+		$requeteCategorieTxt = "SELECT ligneDeCde.idLot, quantiteCommandee, etatLDC, nom, prenom FROM ligneDeCde INNER JOIN lot on ligneDeCde.idLot = lot.idLot INNER JOIN producteur ON lot.idProducteur = producteur.idProducteur INNER JOIN utilisateur on producteur.idUser = utilisateur.idUser WHERE idCommande=$idCommande";
+		$requeteCategorie = mysqli_query($connexion, $requeteCategorieTxt) or die('Erreur SQL !<br>'.$requeteCategorieTxt.'<br>'.mysqli_error($connexion));
+		$cptLC=0;
+		while($data2 = mysqli_fetch_assoc($requeteCategorie))  
+	    { 
+	    	$result[$cptC]['ligneDeCde'][$cptLC]=$data2;
+	    	$cptLC++;
+	    }
+		$cptC++;
 	}
 
 	return $result;
 
 }
-*/
+
 ?>

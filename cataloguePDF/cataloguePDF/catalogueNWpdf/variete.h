@@ -12,9 +12,10 @@ class Variete
         QString varieteImage;
         QString varieteDesc;
         float varietePU;
+        QString varieteUnite;
     public:
         Variete();
-        Variete(int idVariete, QString libelleVariete, QString imageVariete , QString varieteDesc ,float varietePU);
+        Variete(int idVariete, QString libelleVariete, QString imageVariete , QString varieteDesc ,float varietePU, QString varieteUnite);
         QString versChaine();
         QString getImage();
         int getId();

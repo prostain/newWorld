@@ -1,4 +1,7 @@
-<?php 
+<?php
+require_once CHEMIN_MODELE.'commerce.php';
+$idUser = $_SESSION['utilisateur']['idUser'];
+$affiche_commandes = affiche_commande($idUser);
 if (@$_POST['operation'] != "Passer la Commande")  {
 
 }
@@ -18,12 +21,13 @@ if ((@$_POST['operation'] != "Vider le Panier") &&  (@$_POST['action'] != "Passe
 		if($produit["quantite"] > $produit["stock"])
 		{
 			$produit["quantite"]= $produit["stock"];
-			$erreur="la quantité demande exéde la quantité maximum, la quantité commandé a été modifié en conscéquence";
+			$erreur="la quantitÃ© demande exÃ©de la quantitÃ© maximum, la quantitÃ© commandÃ© a Ã©tÃ© modifiÃ© en conscÃ©quence";
 			echo $erreur;
 		}
 
 	}
 	include 'modules/panier/vues/panier_infos.php';
+	include 'modules/panier/vues/afficher_commande.php';
 } 
 if (@$_POST['action'] =="Vider le Panier") 
 {  // On vide le panier

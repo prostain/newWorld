@@ -167,13 +167,13 @@
         <input type="number" id="prix" class="form-control" name="prix" min="0.5" step="0.01" required="">
         <label for="prix">Prix :</label>
       </div>
+            <label>Date de récolte :</label>
       <div class="md-form">
-      <label>Date de récolte :</label>
       <input type="date" id="dateRecolte" class="form-control datepicker1" name="dateRecolte"required="">
         
       </div>
+       <label >Date limite de conservation :</label>
       <div class="md-form">
-      <label >Date limite de conservation :</label>
         <input type="date" id="dateLimite" class="form-control datepicker2" name="dateLimite"required="">
       </div>
       <div class="md-form">

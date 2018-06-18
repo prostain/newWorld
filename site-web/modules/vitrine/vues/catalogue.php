@@ -90,7 +90,7 @@ unset($_SESSION['point']);
       <!-- Card -->
       <div class="card card-cascade wider card-ecommerce">
         <!-- Card image -->
-        <div class="view overlay">
+        <div class="view overlay text-center">
           <img src="<?php echo $lot['photo']; ?>" class="card-img-top" alt="sample photo">
           
         </div>
